@@ -65,7 +65,7 @@
 
 			<!-- Logo -->
 			<h1>
-				<a href="#">SAS Application</a>
+				<a href="#">SAAS Application</a>
 			</h1>
 			<tiles:insertAttribute name="navigation" />
 		</div>
@@ -82,7 +82,6 @@
 								property="principal.username" /></span>! 
 					</div>
 					<div class="loggedOutLink">
-						<a style="font-weight: bold;" href="<c:url value='/auth/user/profile' />">My Profile</a>&nbsp; 
 						<a style="font-weight: bold;" href="<c:url value='/j_spring_security_logout' />">Logout</a>
 					</div>
 					<br class="clearLoggedIn" />

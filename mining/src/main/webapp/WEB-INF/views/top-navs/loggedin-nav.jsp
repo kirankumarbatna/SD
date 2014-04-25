@@ -11,26 +11,32 @@
 
 		<sec:authorize access="hasAnyRole('MINING_ADMIN','TENANT')">
 			<li><a
-				href="${pageContext.servletContext.contextPath}/auth/requirements"><span>Tenant
+				href="${pageContext.servletContext.contextPath}/auth/tenant/showrequirements"><span>Tenant
 						Management</span></a>
-			</li>
+				<ul>
+
+					<li><a
+						href="${pageContext.servletContext.contextPath}/auth/tenant/addrequirement">Add
+							Requirement</a></li>
+
+				</ul>
+				</li>
 		</sec:authorize>
-		
+
 		<sec:authorize access="hasAnyRole('MINING_ADMIN','SAS_PROVIDER')">
 			<li><a
-				href="${pageContext.servletContext.contextPath}/auth/provider"><span>SAAS Provider
-						Management</span></a>
-			</li>
+				href="${pageContext.servletContext.contextPath}/auth/provider"><span>SAAS
+						Provider Management</span></a></li>
 		</sec:authorize>
-		
-		<sec:authorize access="hasAnyRole('MINING_ADMIN','SAS_PROVIDER','TENANT')">
+
+		<sec:authorize
+			access="hasAnyRole('MINING_ADMIN','SAS_PROVIDER','TENANT')">
 			<li><a
 				href="${pageContext.servletContext.contextPath}/auth/search"><span>Search
-						Management</span></a>
-			</li>
+						Management</span></a></li>
 		</sec:authorize>
-		
-	
+
+
 
 	</ul>
 </nav>

@@ -48,6 +48,17 @@
 		<put-attribute name="content" value="/WEB-INF/views/login.jsp" />
 	</definition>
 	
+	<definition name="addrequirements" extends="base.definition">
+		<put-attribute name="title" value="Mining - add requirement" />
+		<put-attribute name="content" value="/WEB-INF/views/tenantmanagement/addrequirements.jsp" />
+	</definition>
+	
+	
+	<definition name="showrequirements" extends="base.definition">
+		<put-attribute name="title" value="Mining - list requirements" />
+		<put-attribute name="content" value="/WEB-INF/views/tenantmanagement/showrequirements.jsp" />
+	</definition>
+	
 	<!-- About page -->
 	<definition name="auth/home" extends="base.definition">
 	    <put-attribute name="title" value="Mining - home" />

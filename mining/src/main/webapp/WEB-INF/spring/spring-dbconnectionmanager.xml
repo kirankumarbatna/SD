@@ -9,4 +9,27 @@
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  
+ 
+ <mongo:mongo host="127.0.0.1" port="27017" />
+	<mongo:db-factory dbname="mining" />
+ 
+ 
+ <mongo:mapping-converter>
+  <mongo:custom-converters>
+    <mongo:converter>
+      <bean class="edu.asu.spring.herckules.converters.RequirementsConverter"/>
+    </mongo:converter>
+  </mongo:custom-converters>
+</mongo:mapping-converter>
+
+
+ 
+ 
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoConverter" ref="mappingConverter"/>
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>
+	
+ 
+ 
 </beans>
