@@ -7,7 +7,11 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
+import edu.asu.spring.mining.domain.IComponent;
+import edu.asu.spring.mining.domain.IDomain;
 import edu.asu.spring.mining.domain.IRequirement;
+import edu.asu.spring.mining.domain.impl.Component;
+import edu.asu.spring.mining.domain.impl.Domain;
 import edu.asu.spring.mining.domain.impl.Requirement;
 
 
@@ -23,6 +27,8 @@ public class InterfaceImplFinder {
 	@PostConstruct
 	public synchronized void init() {
 		interfaceMap.put(IRequirement.class, Requirement.class);
+		interfaceMap.put(IDomain.class, Domain.class);
+		interfaceMap.put(IComponent.class, Component.class);
 		
 	}
 	

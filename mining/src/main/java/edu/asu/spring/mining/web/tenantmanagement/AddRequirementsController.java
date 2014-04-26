@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import edu.asu.spring.mining.domain.impl.Requirement;
+import edu.asu.spring.mining.service.index.IIndexManager;
 import edu.asu.spring.mining.service.requirement.IRequirementManager;
 
 /**
@@ -30,6 +31,9 @@ public class AddRequirementsController {
 
 	@Autowired
 	IRequirementManager requirementManager;
+	
+	@Autowired
+	IIndexManager indexManager;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(AddRequirementsController.class);
@@ -85,6 +89,7 @@ public class AddRequirementsController {
 		}
 
 		requirementManager.insertRequirement(requirement);
+		indexManager.indexRequirementFiles();
 
 		return "auth/home";
 

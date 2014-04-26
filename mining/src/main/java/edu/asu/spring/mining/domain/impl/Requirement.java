@@ -5,8 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.BasicDBObject;
-
 import edu.asu.spring.mining.domain.IRequirement;
 
 @Document(collection = "requirement")
