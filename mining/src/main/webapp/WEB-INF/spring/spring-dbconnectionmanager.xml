@@ -17,7 +17,7 @@
  <mongo:mapping-converter>
   <mongo:custom-converters>
     <mongo:converter>
-      <bean class="edu.asu.spring.herckules.converters.RequirementsConverter"/>
+      <bean class="edu.asu.spring.mining.converters.RequirementsConverter"/>
     </mongo:converter>
   </mongo:custom-converters>
 </mongo:mapping-converter>

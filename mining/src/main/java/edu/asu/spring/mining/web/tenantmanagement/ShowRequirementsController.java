@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import edu.asu.spring.herckules.service.user.IRequirementManager;
 import edu.asu.spring.mining.domain.impl.Requirement;
+import edu.asu.spring.mining.service.requirement.IRequirementManager;
 
 /**
  * Handles requests for the application home page.

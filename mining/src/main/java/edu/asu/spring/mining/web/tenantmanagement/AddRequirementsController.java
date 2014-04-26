@@ -1,9 +1,11 @@
 package edu.asu.spring.mining.web.tenantmanagement;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import edu.asu.spring.herckules.service.user.IRequirementManager;
 import edu.asu.spring.mining.domain.impl.Requirement;
+import edu.asu.spring.mining.service.requirement.IRequirementManager;
 
 /**
  * Handles requests for the application home page.
@@ -52,27 +54,36 @@ public class AddRequirementsController {
 		MultipartFile mpf = null;
 		Iterator<String> itr = request.getFileNames();
 
-	
 		while (itr.hasNext()) {
 			mpf = request.getFile(itr.next());
 
-			String classPath = URLDecoder.decode(AddRequirementsController.class
-					.getProtectionDomain().getCodeSource().getLocation().getPath(),
-					"UTF-8");
-			String path = classPath.substring(0, classPath.indexOf("classes"))
-					+ "classes/" + mpf.getOriginalFilename();
+			Properties p = new Properties();
+			p.load(AddRequirementsController.class.getClassLoader()
+					.getResourceAsStream("storage.properties"));
 
-			System.out.println(path);
-			
-			File f = new File(path);
-			mpf.transferTo(f);
+			String parent = (String) p.get("storagepath");
 
-		requirement.setFilename(mpf.getName());	
-		requirement.setFile(null);	
-		
+			File f = new File(parent + "/index/requirement_index");
+
+			if (!f.exists()) {
+				f.mkdirs();
+			}
+
+			f = new File(parent + "/new_requirement");
+
+			if (!f.exists()) {
+				f.mkdirs();
+			}
+
+			File rf = new File(parent + "/new_requirement/"
+					+ mpf.getOriginalFilename());
+			mpf.transferTo(rf);
+
+			requirement.setFilename(mpf.getOriginalFilename());
+			requirement.setFile(null);
+
 		}
 
-		
 		requirementManager.insertRequirement(requirement);
 
 		return "auth/home";
