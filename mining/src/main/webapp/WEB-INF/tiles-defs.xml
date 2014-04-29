@@ -82,7 +82,11 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/exceptions/accessissue.jsp" />
 	</definition>
-	
+	<!-- Search Management -->
+	<definition name="keywordsearch" extends="base.definition">
+		<put-attribute name="title" value="Mining - Keyword Search" />
+		<put-attribute name="content" value="/WEB-INF/views/searchmanagement/keywordsearch.jsp" />
+	</definition>
 </tiles-definitions>
 
 	

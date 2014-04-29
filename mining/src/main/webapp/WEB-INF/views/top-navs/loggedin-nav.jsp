@@ -32,7 +32,7 @@
 		<sec:authorize
 			access="hasAnyRole('MINING_ADMIN','SAS_PROVIDER','TENANT')">
 			<li><a
-				href="${pageContext.servletContext.contextPath}/auth/search"><span>Search
+				href="${pageContext.servletContext.contextPath}/auth/keywordsearchform"><span>Search
 						Management</span></a></li>
 		</sec:authorize>
 
