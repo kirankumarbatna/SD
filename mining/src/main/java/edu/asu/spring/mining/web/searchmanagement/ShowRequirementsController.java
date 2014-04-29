@@ -1,4 +1,4 @@
-package edu.asu.spring.mining.web.tenantmanagement;
+package edu.asu.spring.mining.web.searchmanagement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
