@@ -24,9 +24,9 @@ public interface IComponent {
 
 	public void setFilename(String filename);
 
-	public List<IDomain> getDomains();
+	public String getDomain();
 
-	public void setDomains(List<IDomain> domains);
+	public void setDomain(String domains);
 
 	public String getUrl();
 

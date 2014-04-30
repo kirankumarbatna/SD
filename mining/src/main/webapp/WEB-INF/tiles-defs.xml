@@ -53,6 +53,17 @@
 		<put-attribute name="content" value="/WEB-INF/views/tenantmanagement/addrequirements.jsp" />
 	</definition>
 	
+	<definition name="auth/tenant/success" extends="base.definition">
+		<put-attribute name="title" value="Mining - list components" />
+		<put-attribute name="content" value="/WEB-INF/views/tenantmanagement/showdomain.jsp" />
+	</definition>
+	
+	
+	<definition name="auth/tenant/showsuggestions" extends="base.definition">
+		<put-attribute name="title" value="Mining - list components" />
+		<put-attribute name="content" value="/WEB-INF/views/tenantmanagement/showsuggestions.jsp" />
+	</definition>
+	
 	
 	<definition name="showrequirements" extends="base.definition">
 		<put-attribute name="title" value="Mining - list requirements" />
@@ -69,6 +80,9 @@
 		<put-attribute name="title" value="Mining - list components" />
 		<put-attribute name="content" value="/WEB-INF/views/componentmanagement/showcomponents.jsp" />
 	</definition>
+	
+	
+	
 	
 	
 	<!-- About page -->
@@ -94,6 +108,9 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/exceptions/accessissue.jsp" />
 	</definition>
+	
+	
+	
 	<!-- Search Management -->
 	<definition name="keywordsearch" extends="base.definition">
 		<put-attribute name="title" value="Mining - Keyword Search" />

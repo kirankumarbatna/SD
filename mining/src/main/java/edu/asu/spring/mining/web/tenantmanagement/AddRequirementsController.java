@@ -2,8 +2,8 @@ package edu.asu.spring.mining.web.tenantmanagement;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URLDecoder;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import edu.asu.edu.spring.mining.classifier.TextCategorizationTest;
 import edu.asu.spring.mining.domain.impl.Requirement;
 import edu.asu.spring.mining.service.index.IIndexManager;
 import edu.asu.spring.mining.service.requirement.IRequirementManager;
@@ -34,6 +35,11 @@ public class AddRequirementsController {
 	
 	@Autowired
 	IIndexManager indexManager;
+	
+	@Autowired
+	TextCategorizationTest classify;
+	
+	
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(AddRequirementsController.class);
@@ -52,8 +58,7 @@ public class AddRequirementsController {
 			@RequestParam("keyword") String keyword,
 			@RequestParam("name") String price,
 			@RequestParam("description") String description,
-			MultipartHttpServletRequest request) throws IllegalStateException,
-			IOException {
+			MultipartHttpServletRequest request) throws Exception {
 
 		MultipartFile mpf = null;
 		Iterator<String> itr = request.getFileNames();
@@ -83,15 +88,45 @@ public class AddRequirementsController {
 					+ mpf.getOriginalFilename());
 			mpf.transferTo(rf);
 
+			FileChannel src = new FileInputStream(parent + "/new_requirement/"
+					+ mpf.getOriginalFilename()).getChannel();
+			  FileChannel dest = new FileOutputStream(parent+"/classfiles/sports/"+ mpf.getOriginalFilename()).getChannel();
+			  dest.transferFrom(src, 0, src.size());
+			
+			  src.close();
+			  dest.close();
+			  
+			
+			
 			requirement.setFilename(mpf.getOriginalFilename());
 			requirement.setFile(null);
 
-		}
+		
 
+		
+		
+		
+		
+		
+		String domain = classify.classify();
+		
+		requirement.setDomain(domain);
+		
+		File file = new File(parent+"/classfiles/sports/"+ mpf.getOriginalFilename());
+		 
+		file.delete();
+		
 		requirementManager.insertRequirement(requirement);
 		indexManager.indexRequirementFiles();
+		
+		
+		
+		model.addAttribute("domain", domain);
+		
+		
+		}
 
-		return "auth/home";
+		return "auth/tenant/success";
 
 	}
 

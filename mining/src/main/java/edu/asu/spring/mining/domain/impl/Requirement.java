@@ -20,10 +20,17 @@ public class Requirement  implements IRequirement{
 	private String description;
 	private String keyword;
 	private String filename;
+	private String domain;
 	
 	
 	
 	
+	public String getDomain() {
+		return domain;
+	}
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
 	@Override
 	public String getId() {
 		return id;

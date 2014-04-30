@@ -105,16 +105,11 @@
 
 
 			<tr>
-				<td><label>Component Domains:</label></td>
-				<td><form:select id="domainSelect" name="Component Domains"
-						multiple="multiple" path="domains" items="${domains}"
-						itemLabel="domains" itemValue="domains">
-					</form:select></td>
-<!-- 		<td><label>Other:</label></td> -->
-<%-- 				<td><form:input class="text" type="text" name="domains" --%>
-<%-- 						path="domains" value='' /></td> --%>
-		
+				<td><label>Domain Name:(Please provide domain names separated by comma)</label></td>
+				<td><form:input class="text" type="text" name="domain"
+						path="domain" value='' /></td>
 			</tr>
+			
 			
 			
 				

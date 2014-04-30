@@ -161,7 +161,7 @@
 								<td width="15%" align="center"><c:out value="${requirement.keyword}"></c:out></td>
 								
 								<td width=5%"><input type=button class="ui-button ui-widget ui-state-default ui-corner-all"
-									onClick="location.href='${pageContext.servletContext.contextPath}/auth/requirement/showrecommendations/"
+									onClick="location.href='${pageContext.servletContext.contextPath}/auth/requirement/showrecommendations/${requirement.id}'"
 									value='Show Recommendations'>
 									
 							</tr>

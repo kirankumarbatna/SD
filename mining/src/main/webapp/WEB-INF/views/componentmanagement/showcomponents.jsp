@@ -160,11 +160,9 @@
 										value="${component.name}"></c:out></td>
 								<td width="15%" align="center"><c:out
 										value="${component.filename}"></c:out></td>
-								<td width="15%" align="center">
-								<c:forEach
-										items="${component.domains}" var="domain">
-										<c:out value="${domain},"></c:out>
-									</c:forEach></td>
+								<td width="15%" align="center"><c:out
+										value="${component.domain}"></c:out></td>
+								
 
 								<td width="15%" align="center"><c:out
 										value="${component.url}"></c:out></td>

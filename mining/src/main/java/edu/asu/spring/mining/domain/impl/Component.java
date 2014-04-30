@@ -23,13 +23,17 @@ public class Component  implements IComponent{
 	private MultipartFile file;
 	private String filename;
 	private String url;
-	
-	
-	@DBRef
-    private List<IDomain> domains;	
+	String domain;
 	
 	
 	
+	
+	public String getDomain() {
+		return domain;
+	}
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
 	public String getId() {
 		return id;
 	}
@@ -57,12 +61,7 @@ public class Component  implements IComponent{
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-	public List<IDomain> getDomains() {
-		return domains;
-	}
-	public void setDomains(List<IDomain> domains) {
-		this.domains = domains;
-	}
+	
 	public String getUrl() {
 		return url;
 	}

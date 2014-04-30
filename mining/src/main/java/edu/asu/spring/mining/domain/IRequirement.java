@@ -18,5 +18,7 @@ public interface IRequirement {
 	public void setId(String id);
 	public String getFilename() ;
 	public void setFilename(String filename) ;
+	public String getDomain() ;
+	public void setDomain(String domain); 
 
 }
