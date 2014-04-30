@@ -18,6 +18,8 @@ public interface IDBManagerComponent {
 
 	IComponent getcomponent(String componentid);
 
+	IComponent getComponentbyFileName(String filename);
+
 
 
 	

@@ -19,14 +19,21 @@
 						href="${pageContext.servletContext.contextPath}/auth/tenant/addrequirement">Add
 							Requirement</a></li>
 
-				</ul>
-				</li>
+				</ul></li>
 		</sec:authorize>
 
 		<sec:authorize access="hasAnyRole('MINING_ADMIN','SAS_PROVIDER')">
 			<li><a
-				href="${pageContext.servletContext.contextPath}/auth/provider"><span>SAAS
+				href="${pageContext.servletContext.contextPath}/auth/component/showcomponents"><span>SAAS
 						Provider Management</span></a></li>
+
+			<ul>
+
+				<li><a
+					href="${pageContext.servletContext.contextPath}/auth/component/addcomponent">Add
+						Component</a></li>
+
+			</ul>
 		</sec:authorize>
 
 		<sec:authorize

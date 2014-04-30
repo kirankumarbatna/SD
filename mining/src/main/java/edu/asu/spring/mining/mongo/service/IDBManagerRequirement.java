@@ -18,6 +18,8 @@ public interface IDBManagerRequirement {
 
 	IRequirement getRequirement(String requirementid);
 
+	IRequirement getRequirementbyFileName(String filename);
+
 
 
 	

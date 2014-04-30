@@ -6,10 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import edu.asu.spring.mining.domain.IComponent;
+import edu.asu.spring.mining.domain.IDomain;
 import edu.asu.spring.mining.mongo.service.IDBManagerComponent;
 
+@Repository
 public class DBManagerComponent implements IDBManagerComponent {
 
 	private static final Logger logger = LoggerFactory
@@ -83,6 +88,35 @@ public class DBManagerComponent implements IDBManagerComponent {
 			return null;
 		}
 	}
+
+	@Override
+	public IComponent getComponentbyFileName(String filename)  {
+		
+		if(filename == null || filename.equals(""))
+			return null;
+		
+		try
+		{
+			//Build the query
+			Query query = Query.query(Criteria.where("filename").is(filename));
+			
+			//Find the target class for the interface.
+			Class<?> targetClass = implFinder.getImplPackage(IComponent.class);
+			
+			if(targetClass!=null)
+				return (IComponent) mongoTemplate.findOne(query, targetClass, COLLECTION_NAME);
+			else
+				return null;
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			logger.debug("Exception in retrieving a domain",e);
+			return null;
+		}
+	}
+
 
 	
 

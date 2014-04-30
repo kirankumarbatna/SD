@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "domain")
 public interface IDomain {
 
-	String getDomains();
+	public String getDomains();
 
 	public void setDomains(String domains);
 

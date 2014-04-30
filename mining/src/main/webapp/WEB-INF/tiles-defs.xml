@@ -59,6 +59,18 @@
 		<put-attribute name="content" value="/WEB-INF/views/tenantmanagement/showrequirements.jsp" />
 	</definition>
 	
+	<definition name="addcomponents" extends="base.definition">
+		<put-attribute name="title" value="Mining - add component" />
+		<put-attribute name="content" value="/WEB-INF/views/componentmanagement/addcomponents.jsp" />
+	</definition>
+	
+	
+	<definition name="showcomponents" extends="base.definition">
+		<put-attribute name="title" value="Mining - list components" />
+		<put-attribute name="content" value="/WEB-INF/views/componentmanagement/showcomponents.jsp" />
+	</definition>
+	
+	
 	<!-- About page -->
 	<definition name="auth/home" extends="base.definition">
 	    <put-attribute name="title" value="Mining - home" />

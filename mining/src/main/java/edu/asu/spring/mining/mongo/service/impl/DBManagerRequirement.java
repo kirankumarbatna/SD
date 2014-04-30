@@ -6,8 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import edu.asu.spring.mining.domain.IComponent;
 import edu.asu.spring.mining.domain.IRequirement;
 import edu.asu.spring.mining.mongo.service.IDBManagerRequirement;
 
@@ -85,6 +88,35 @@ public class DBManagerRequirement implements IDBManagerRequirement {
 			logger.info("Exception in deleting a Requirement", e);
 
 			return FAILURE;
+		}
+	}
+	
+	
+	@Override
+	public IRequirement getRequirementbyFileName(String filename)  {
+		
+		if(filename == null || filename.equals(""))
+			return null;
+		
+		try
+		{
+			//Build the query
+			Query query = Query.query(Criteria.where("filename").is(filename));
+			
+			//Find the target class for the interface.
+			Class<?> targetClass = implFinder.getImplPackage(IRequirement.class);
+			
+			if(targetClass!=null)
+				return (IRequirement) mongoTemplate.findOne(query, targetClass, COLLECTION_NAME);
+			else
+				return null;
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			logger.debug("Exception in retrieving a requirement",e);
+			return null;
 		}
 	}
 
