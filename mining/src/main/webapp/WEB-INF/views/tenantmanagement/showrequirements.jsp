@@ -143,11 +143,11 @@
 					border="0" class="display dataTable" id="listrequirement">
 					<thead>
 						<tr>
-							<th align="left"><input type="checkbox" id="selectall">All</th>
-							<th align="left">Name</th>
-							<th >Description</th>
-							<th >Keywords</th>
-							<th>Action</th>
+							<th align="left" style="font-weight: bold;"><input type="checkbox" id="selectall">All</th>
+							<th align="left" style="font-weight: bold;">Name</th>
+							<th style="font-weight: bold;">Description</th>
+							<th style="font-weight: bold;">Keywords</th>
+							<th style="font-weight: bold;">Action</th>
 						</tr>
 					</thead>
 
