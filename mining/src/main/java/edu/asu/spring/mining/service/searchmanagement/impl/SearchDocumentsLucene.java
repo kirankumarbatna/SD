@@ -22,8 +22,11 @@ import org.apache.lucene.util.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.asu.spring.mining.domain.IComponent;
+import edu.asu.spring.mining.domain.IDomain;
 import edu.asu.spring.mining.domain.IRequirement;
 import edu.asu.spring.mining.domain.impl.SearchResultDoc;
+import edu.asu.spring.mining.mongo.service.IDBManagerComponent;
 import edu.asu.spring.mining.mongo.service.IDBManagerRequirement;
 import edu.asu.spring.mining.service.searchmanagement.ISearchDocumentsLucene;
 
@@ -36,6 +39,9 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 	
 	@Autowired
 	private IDBManagerRequirement dbManager;
+	
+	@Autowired
+	private IDBManagerComponent dbManagerComponent;
 	
 	@Override
 	public ArrayList<SearchResultDoc> findDocumentsBasedOnKeywords(String searchKeywords) throws IOException, ParseException
@@ -87,7 +93,7 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 		Properties pObj = new Properties();
 		pObj.load(SearchDocumentsLucene.class.getClassLoader().getResourceAsStream("storage.properties"));
 		String rootPath = (String) pObj.get("storagepath");
-		String indexPath = rootPath.concat("/component/requirement_index");
+		String indexPath = rootPath.concat("/index/component_index");
 		System.out.println("Searching for the keywords : "+ searchKeywords);
 		Directory dirObj = FSDirectory.open(new File(indexPath));
 		IndexReader indexReaderObj = IndexReader.open(dirObj);
@@ -111,12 +117,13 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 		
 		for(String name : allUniqueDocs)
 		{
-			IRequirement requirement = dbManager.getRequirementbyFileName(name.substring(1));
-			System.out.println(requirement.getName() + "   :name");
+			IComponent comp = dbManagerComponent.getComponentbyFileName(name.substring(1));
+			System.out.println(comp.getName() + "   :name");
 			SearchResultDoc resultDoc = new SearchResultDoc();
-			resultDoc.setDocumentName(requirement.getFilename());
-			resultDoc.setName(requirement.getName());
-			resultDoc.setDescription(requirement.getDescription());
+			resultDoc.setDocumentName(comp.getFilename());
+			resultDoc.setName(comp.getName());
+			resultDoc.setComponentDomain(comp.getDomain());
+			resultDoc.setUrl(comp.getUrl());
 			allDocs.add(resultDoc);
 			System.out.println("Document name: "+name);
 		}

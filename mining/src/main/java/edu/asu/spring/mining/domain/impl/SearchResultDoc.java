@@ -9,9 +9,12 @@ import edu.asu.spring.mining.domain.ISearchResultDoc;
 @Service
 public class SearchResultDoc implements ISearchResultDoc {
 
+	private String searchType;
 	private String documentName;
 	private String name;
 	private String description;
+	private String url;
+	private String componentDomain;
 	
 	@Override
 	public String getDocumentName() {
@@ -42,7 +45,35 @@ public class SearchResultDoc implements ISearchResultDoc {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+	@Override
+	public String getSearchType() {
+		return searchType;
+	}
+
+	@Override
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	@Override
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@Override
+	public String getComponentDomain() {
+		return componentDomain;
+	}
+
+	@Override
+	public void setComponentDomain(String componentDomain) {
+		this.componentDomain = componentDomain;
+	}
 
 }

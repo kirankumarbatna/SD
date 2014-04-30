@@ -25,7 +25,11 @@
 			<tr>
 				<td colspan="3" align="left"><h1>Enter search keywords</h1></td>
 			</tr>
-
+			<tr>
+				<td><input type="radio" name="searchType" value="requirement">Requirements
+				    <input type="radio" name="searchType" value="component">Components
+				</td>
+			</tr>
 			<tr>
 				<td><label>Search:</label></td>
 				<td><input class="text" type="text" name="keyword"

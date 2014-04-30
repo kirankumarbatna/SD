@@ -39,20 +39,26 @@ public class KeywordSearchController {
 	}
 	
 	@RequestMapping(value = "/auth/keywordsearch", method = RequestMethod.POST)
-	public String keywordsearch(ModelMap model,@RequestParam("keyword") String keyword) throws IOException, ParseException {
+	public String keywordsearch(ModelMap model,@RequestParam("keyword") String keyword,@RequestParam("searchType") String searchType) throws IOException, ParseException {
 		// Sowjanya 
 		/*Map<Integer, Document> docMaps = computeDocTermFreqManager.computeDocumentTermFreqeuncies();
 		LinkedHashMap<Integer, Document> similarDocs = findSimDocs.findSimialrRequirementsBasedOnKeywords(keyword, docMaps);*/
 		  //model.addAttribute("documents", );
-		if(keyword!=null&&keyword.length()>0)
+		if(searchType.equals("requirement") && keyword!=null && keyword.length()>0)
 		{
 			ArrayList<SearchResultDoc> resultDocs = findSimDocs.findDocumentsBasedOnKeywords(keyword);
 			model.addAttribute("keywordSearchResults", resultDocs);
 		}
+		else if(searchType.equals("component") && keyword!=null && keyword.length()>0)
+		{
+			ArrayList<SearchResultDoc> resultDocs = findSimDocs.findDocumentsBasedOnKeywordsInComponents(keyword);
+			model.addAttribute("keywordSearchResults", resultDocs);
+		}
+		model.addAttribute("searchType", searchType);
 		return "keywordsearchResults";
 	}
 	
-	@RequestMapping(value = "/auth/component/keywordsearch", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/auth/component/keywordsearch", method = RequestMethod.POST)
 	public String componentKeywordsearch(ModelMap model,@RequestParam("keyword") String keyword) throws IOException, ParseException {
 		
 		if(keyword!=null&&keyword.length()>0)
@@ -61,6 +67,6 @@ public class KeywordSearchController {
 			model.addAttribute("keywordSearchResults", resultDocs);
 		}
 		return "keywordsearchResults";
-	}
+	}*/
 
 }
