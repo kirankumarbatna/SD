@@ -3,6 +3,8 @@ package edu.asu.spring.mining.domain.impl;
 import edu.asu.spring.mining.domain.IRole;
 
 
+
+
 public class Role implements IRole {
 
 	private String id;
