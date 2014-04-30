@@ -87,6 +87,10 @@
 		<put-attribute name="title" value="Mining - Keyword Search" />
 		<put-attribute name="content" value="/WEB-INF/views/searchmanagement/keywordsearch.jsp" />
 	</definition>
+	
+	<definition name="keywordsearchResults" extends="base.definition">
+		<put-attribute name="title" value="Mining - Keyword Search Results" />
+		<put-attribute name="content" value="/WEB-INF/views/searchmanagement/showresults.jsp" />
+	</definition>
 </tiles-definitions>
-
 	

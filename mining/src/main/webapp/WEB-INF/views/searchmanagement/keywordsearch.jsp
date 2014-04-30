@@ -5,28 +5,40 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Keyword Search</title>
+<script type="text/javascript">
+	function checkAndSubmit()
+	{
+		var searchText = document.form1.keyword.value;
+		if(searchText==null || searchText.length==0)
+		{
+			alert("Please enter the search text !!");
+			return false;
+		}
+		form1.submit();
+	}
+</script>
 </head>
 <body>
 <div id="search">
-<table id="cssTable">
-
-
+	<form id="form1" action="${pageContext.servletContext.contextPath}/auth/keywordsearch" class="form" method="POST" enctype="multipart/form-data">
+		<table id="cssTable">
 			<tr>
-				<td colspan="3" align="left"><h1>Add a Requirement</h1></td>
+				<td colspan="3" align="left"><h1>Enter search keywords</h1></td>
 			</tr>
 
 			<tr>
-				<td><label>Name:</label></td>
-				<td><input class="text" type="text" name="name"
-						id="name" value='' /></td>
+				<td><label>Search:</label></td>
+				<td><input class="text" type="text" name="keyword"
+						id="keyword" value='' /></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="left"><input class="submit"
-					type="submit" value="Search" /> <input type=button class="cancel"
-					onClick="location.href='${pageContext.servletContext.contextPath}/auth/home'"
-					value='Cancel' /></td>
+				<td colspan="2" align="left">
+				<input class="submit" type="submit" value="Search" onclick="checkAndSubmit()"/> 
+				<input type=button class="cancel" onClick="location.href='${pageContext.servletContext.contextPath}/auth/home'"
+					value='Cancel'/></td>
 			</tr>
 		</table>
+	</form>
 </div>
 </body>
 </html>
