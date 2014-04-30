@@ -2,11 +2,8 @@ package edu.asu.spring.mining.web.searchmanagement;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.search.ScoreDoc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import edu.asu.spring.mining.domain.impl.Document;
 import edu.asu.spring.mining.domain.impl.SearchResultDoc;
-import edu.asu.spring.mining.service.index.IComputeDocumentTermFrequencyManager;
-import edu.asu.spring.mining.service.searchmanagement.IFindSimialrDocuments;
 import edu.asu.spring.mining.service.searchmanagement.ISearchDocumentsLucene;
 
 @Controller

@@ -10,6 +10,8 @@ import edu.asu.spring.mining.domain.ISearchResultDoc;
 public class SearchResultDoc implements ISearchResultDoc {
 
 	private String documentName;
+	private String name;
+	private String description;
 	
 	@Override
 	public String getDocumentName() {
@@ -20,5 +22,23 @@ public class SearchResultDoc implements ISearchResultDoc {
 	public void setDocumentName(String docName) {
 		this.documentName = docName;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 
 }

@@ -19,9 +19,12 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.asu.spring.mining.domain.IRequirement;
 import edu.asu.spring.mining.domain.impl.SearchResultDoc;
+import edu.asu.spring.mining.mongo.service.IDBManagerRequirement;
 import edu.asu.spring.mining.service.searchmanagement.ISearchDocumentsLucene;
 
 @Service
@@ -31,13 +34,16 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 	public static final String FIELD_PATH = "path";
 	public static final int MAX_RESULTS_NEEDED = 100;
 	
+	@Autowired
+	private IDBManagerRequirement dbManager;
+	
 	@Override
 	public ArrayList<SearchResultDoc> findDocumentsBasedOnKeywords(String searchKeywords) throws IOException, ParseException
 	{
 		Properties pObj = new Properties();
 		pObj.load(SearchDocumentsLucene.class.getClassLoader().getResourceAsStream("storage.properties"));
 		String rootPath = (String) pObj.get("storagepath");
-		String indexPath = rootPath.concat("\\index\\requirement_index");
+		String indexPath = rootPath.concat("/index/requirement_index");
 		System.out.println("Searching for the keywords : "+ searchKeywords);
 		Directory dirObj = FSDirectory.open(new File(indexPath));
 		IndexReader indexReaderObj = IndexReader.open(dirObj);
@@ -61,8 +67,12 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 		
 		for(String name : allUniqueDocs)
 		{
+			IRequirement requirement = dbManager.getRequirementbyFileName(name.substring(1));
+			System.out.println(requirement.getName() + "   :name");
 			SearchResultDoc resultDoc = new SearchResultDoc();
-			resultDoc.setDocumentName(name);
+			resultDoc.setDocumentName(requirement.getFilename());
+			resultDoc.setName(requirement.getName());
+			resultDoc.setDescription(requirement.getDescription());
 			allDocs.add(resultDoc);
 			System.out.println("Document name: "+name);
 		}

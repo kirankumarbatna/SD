@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import edu.asu.spring.mining.domain.IComponent;
 import edu.asu.spring.mining.domain.IRequirement;
 import edu.asu.spring.mining.mongo.service.IDBManagerRequirement;
 
