@@ -80,4 +80,47 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 		indexSearcherObj.close();
 		return allDocs;
 	}
+	
+	@Override
+	public ArrayList<SearchResultDoc> findDocumentsBasedOnKeywordsInComponents(String searchKeywords) throws IOException, ParseException
+	{
+		Properties pObj = new Properties();
+		pObj.load(SearchDocumentsLucene.class.getClassLoader().getResourceAsStream("storage.properties"));
+		String rootPath = (String) pObj.get("storagepath");
+		String indexPath = rootPath.concat("/component/requirement_index");
+		System.out.println("Searching for the keywords : "+ searchKeywords);
+		Directory dirObj = FSDirectory.open(new File(indexPath));
+		IndexReader indexReaderObj = IndexReader.open(dirObj);
+		IndexSearcher indexSearcherObj = new IndexSearcher(indexReaderObj);
+		
+		Version currentVersion = Version.LUCENE_36;
+		Analyzer analyzer = new StandardAnalyzer(currentVersion);
+		QueryParser qParser = new QueryParser(currentVersion,FIELD_CONTENTS, analyzer);
+		Query searchQuery = qParser.parse(searchKeywords);
+		TopDocs searchTopResults = indexSearcherObj.search(searchQuery,MAX_RESULTS_NEEDED);
+		System.out.println("Total hits: "+searchTopResults.totalHits);
+		ScoreDoc[] documentHits = searchTopResults.scoreDocs;
+		System.out.println("------- Search Results -------");
+		ArrayList<SearchResultDoc> allDocs = new ArrayList<SearchResultDoc>();
+		HashSet<String> allUniqueDocs = new HashSet<String>();
+		for(ScoreDoc hit : documentHits)
+		{
+			Document doc = indexSearcherObj.doc(hit.doc);
+			allUniqueDocs.add(doc.get(FIELD_PATH));
+		}
+		
+		for(String name : allUniqueDocs)
+		{
+			IRequirement requirement = dbManager.getRequirementbyFileName(name.substring(1));
+			System.out.println(requirement.getName() + "   :name");
+			SearchResultDoc resultDoc = new SearchResultDoc();
+			resultDoc.setDocumentName(requirement.getFilename());
+			resultDoc.setName(requirement.getName());
+			resultDoc.setDescription(requirement.getDescription());
+			allDocs.add(resultDoc);
+			System.out.println("Document name: "+name);
+		}
+		indexSearcherObj.close();
+		return allDocs;
+	}
 }

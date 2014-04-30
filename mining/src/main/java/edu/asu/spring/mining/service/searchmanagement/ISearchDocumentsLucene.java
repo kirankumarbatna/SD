@@ -10,4 +10,7 @@ import edu.asu.spring.mining.domain.impl.SearchResultDoc;
 public interface ISearchDocumentsLucene 
 {
 	public abstract ArrayList<SearchResultDoc> findDocumentsBasedOnKeywords(String searchKeywords) throws IOException, ParseException;
+
+	public abstract ArrayList<SearchResultDoc> findDocumentsBasedOnKeywordsInComponents(
+			String searchKeywords) throws IOException, ParseException;
 }

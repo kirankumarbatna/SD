@@ -51,5 +51,16 @@ public class KeywordSearchController {
 		}
 		return "keywordsearchResults";
 	}
+	
+	@RequestMapping(value = "/auth/component/keywordsearch", method = RequestMethod.POST)
+	public String componentKeywordsearch(ModelMap model,@RequestParam("keyword") String keyword) throws IOException, ParseException {
+		
+		if(keyword!=null&&keyword.length()>0)
+		{
+			ArrayList<SearchResultDoc> resultDocs = findSimDocs.findDocumentsBasedOnKeywordsInComponents(keyword);
+			model.addAttribute("keywordSearchResults", resultDocs);
+		}
+		return "keywordsearchResults";
+	}
 
 }
