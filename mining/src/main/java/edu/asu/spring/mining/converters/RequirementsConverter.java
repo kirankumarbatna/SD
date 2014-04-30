@@ -26,6 +26,7 @@ public class RequirementsConverter implements Converter<DBObject, Requirement> {
 		r.setName((String)arg0.get("name"));
 		r.setKeyword((String)arg0.get("keyword"));
 		r.setId(((ObjectId)arg0.get("_id")).toString());
+		r.setFilename((String)arg0.get("filename"));
 		
 		return r ;
 	}

@@ -15,13 +15,17 @@
 						border="0" class="display dataTable" id="listrequirement">			
 			<thead>
 				<tr>
-					<th >Matched Documents</th>
+					<th >Document Name</th>
+					<th >Name</th>
+					<th >Description</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="searchResultDocument" items="${keywordSearchResults}">
 					<tr>
 						<td width="10%" align="left"><c:out value="${searchResultDocument.documentName}"></c:out></td>
+						<td width="10%" align="left"><c:out value="${searchResultDocument.name}"></c:out></td>
+						<td width="10%" align="left"><c:out value="${searchResultDocument.description}"></c:out></td>
 					</tr>
 				</c:forEach>
 			</tbody>

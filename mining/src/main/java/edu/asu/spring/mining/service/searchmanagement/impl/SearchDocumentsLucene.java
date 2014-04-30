@@ -68,13 +68,14 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 		for(String name : allUniqueDocs)
 		{
 			IRequirement requirement = dbManager.getRequirementbyFileName(name.substring(1));
-			System.out.println(requirement.getName() + "   :name");
+			/*System.out.println(requirement.getName() + "   :name");
+			System.out.println(name.substring(1)+" *hello* "+requirement.getFilename());*/
 			SearchResultDoc resultDoc = new SearchResultDoc();
-			resultDoc.setDocumentName(requirement.getFilename());
+			resultDoc.setDocumentName(name.substring(1));
 			resultDoc.setName(requirement.getName());
 			resultDoc.setDescription(requirement.getDescription());
 			allDocs.add(resultDoc);
-			System.out.println("Document name: "+name);
+			//System.out.println("Document name: "+name);
 		}
 		indexSearcherObj.close();
 		return allDocs;
