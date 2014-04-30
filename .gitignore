@@ -1,1 +1,3 @@
 *.class
+mining/target
+mining/src/main/resources/storage.properties
