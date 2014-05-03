@@ -3,10 +3,8 @@ package edu.asu.spring.mining.service.index.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Date;
 import java.util.Properties;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -17,7 +15,6 @@ import org.apache.lucene.document.NumericField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
@@ -32,130 +29,112 @@ public class IndexManager implements IIndexManager {
 	public void indexRequirementFiles() throws IOException {
 
 		Properties p = new Properties();
-		p.load(IndexManager.class.getClassLoader()
-				.getResourceAsStream("storage.properties"));
+		p.load(IndexManager.class.getClassLoader().getResourceAsStream(
+				"storage.properties"));
 
 		String parent = (String) p.get("storagepath");
 
-	      String indexpath = parent + "/index/requirement_index";
-	      
-	      String docspath = parent + "/new_requirement";
-	      
-	      addToIndex(indexpath, docspath);
-		
+		String indexpath = parent + "/index/requirement_index";
+
+		String docspath = parent + "/new_requirement";
+
+		IndexDirectory(indexpath, docspath);
+
 	}
-	
-	
+
 	@Override
 	public void indexComponentFiles() throws IOException {
 
 		Properties p = new Properties();
-		p.load(IndexManager.class.getClassLoader()
-				.getResourceAsStream("storage.properties"));
+		p.load(IndexManager.class.getClassLoader().getResourceAsStream(
+				"storage.properties"));
 
 		String parent = (String) p.get("storagepath");
 
-	      String indexpath = parent + "/index/component_index";
-	      
-	      String docspath = parent + "/new_component";
-	      
-	      addToIndex(indexpath, docspath);
-		
+		String indexpath = parent + "/index/component_index";
+
+		String docspath = parent + "/new_component";
+
+		IndexDirectory(indexpath, docspath);
+
 	}
-	
-	
-	
 
-	/** Index all text files under a directory. */
-	public static void addToIndex(String indexPath,String docsPath) {
-		
-		final File docDir = new File(docsPath);
-		if (!docDir.exists() || !docDir.canRead()) {
-			System.out
-					.println("Document directory '"
-							+ docDir.getAbsolutePath()
-							+ "' does not exist or is not readable, please check the path");
-			System.exit(1);
-		}
+	/**
+	 * This method is used to index all files in the directory
+	 * 
+	 * @param indexPath
+	 * @param directoryPath
+	 */
+	public static void IndexDirectory(String indexPath, String directoryPath) {
 
-		Date start = new Date();
+		final File file = new File(directoryPath);
+
 		try {
-			System.out.println("Indexing to directory '" + indexPath + "'...");
 
 			Directory dir = FSDirectory.open(new File(indexPath));
 			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_31);
-			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_31,
-					analyzer);
+			IndexWriterConfig indexWriterConfig = new IndexWriterConfig(
+					Version.LUCENE_31, analyzer);
 
-			iwc.setOpenMode(OpenMode.CREATE_OR_APPEND);
+			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 
-			IndexWriter writer = new IndexWriter(dir, iwc);
-			indexDocs(writer, docDir, docsPath);
+			IndexWriter writer = new IndexWriter(dir, indexWriterConfig);
 
-			writer.close();
-
-			Date end = new Date();
-			System.out.println(end.getTime() - start.getTime()
-					+ " total milliseconds");
-
-		} catch (IOException e) {
-			System.out.println(" caught a " + e.getClass()
-					+ "\n with message: " + e.getMessage());
-		}
-	}
-
-	static void indexDocs(IndexWriter writer, File file, String docsPath)
-			throws IOException {
-
-		if (file.canRead()) {
 			if (file.isDirectory()) {
 				String[] files = file.list();
 
 				if (files != null) {
 					for (int i = 0; i < files.length; i++) {
-						indexDocs(writer, new File(file, files[i]), docsPath);
+						indexfile(writer, new File(file, files[i]), directoryPath);
 					}
 				}
+
 			} else {
 
-				FileInputStream fis;
-				try {
-					fis = new FileInputStream(file);
-				} catch (FileNotFoundException fnfe) {
-					return;
-				}
-
-				try {
-
-					// make a new, empty document
-					Document doc = new Document();
-
-					Field pathField = new Field("path", file.getPath()
-							.substring(docsPath.length()), Field.Store.YES,
-							Field.Index.NO);
-					//pathField.setIndexOptions(IndexOptions.DOCS_ONLY);
-					doc.add(pathField);
-
-					NumericField modifiedField = new NumericField("modified");
-					modifiedField.setLongValue(file.lastModified());
-					doc.add(modifiedField);
-
-					doc.add(new Field("contents", new BufferedReader(
-							new InputStreamReader(fis, "UTF-8"))));
-
-					if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
-						System.out.println("adding " + file);
-						writer.addDocument(doc);
-					} else {
-						System.out.println("updating " + file);
-						writer.updateDocument(new Term("path", file.getPath()),
-								doc);
-					}
-
-				} finally {
-					fis.close();
-				}
+				// index one file
+				indexfile(writer, file, directoryPath);
 			}
+			writer.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method is used to index one file
+	 * 
+	 * @param writer
+	 * @param file
+	 * @param filePath
+	 * @throws IOException
+	 */
+	static void indexfile(IndexWriter writer, File file, String filePath)
+			throws IOException {
+
+		FileInputStream fileInputStream = null;
+
+		try {
+			fileInputStream = new FileInputStream(file);
+			Document doc = new Document();
+
+			NumericField modifiedField = new NumericField("modified");
+			modifiedField.setLongValue(file.lastModified());
+			doc.add(modifiedField);
+
+			doc.add(new Field("contents", new BufferedReader(
+					new InputStreamReader(fileInputStream, "UTF-8"))));
+
+			Field pathField = new Field("path", file.getPath().substring(
+					filePath.length()), Field.Store.YES, Field.Index.NO);
+			doc.add(pathField);
+
+			writer.addDocument(doc);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			fileInputStream.close();
 		}
 	}
 

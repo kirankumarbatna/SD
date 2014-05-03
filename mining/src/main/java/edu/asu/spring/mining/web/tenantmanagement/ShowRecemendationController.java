@@ -60,7 +60,7 @@ public class ShowRecemendationController {
 			String[] domainarray = domains.split(",");
 			
 			for(int i=0;i<domainarray.length;i++){
-				if(domainarray[i].equals(domain)){
+				if(domainarray[i].toLowerCase().equals(domain.toLowerCase())){
 					rList.add(c);
 				}
 			}

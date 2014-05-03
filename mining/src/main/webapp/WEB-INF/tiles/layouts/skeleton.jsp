@@ -65,7 +65,7 @@
 
 			<!-- Logo -->
 			<h1>
-				<a href="#">SAAS Application</a>
+				<a href="#">EASYSaaS Platform</a>
 			</h1>
 			<tiles:insertAttribute name="navigation" />
 		</div>
@@ -99,7 +99,7 @@
 	<!-- Copyright -->
 	<div id="copyright" class="container">
 		<ul class="links">
-			<li>&copy;2014 ASU Student Group</li>
+			<li>&copy;2014 Software Design, GROUP 2, 6, 32</li>
 		</ul>
 	</div>
 </body>

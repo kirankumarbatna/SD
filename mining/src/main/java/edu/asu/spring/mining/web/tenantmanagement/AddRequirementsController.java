@@ -32,14 +32,12 @@ public class AddRequirementsController {
 
 	@Autowired
 	IRequirementManager requirementManager;
-	
+
 	@Autowired
 	IIndexManager indexManager;
-	
+
 	@Autowired
 	TextCategorizationTest classify;
-	
-	
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(AddRequirementsController.class);
@@ -88,42 +86,36 @@ public class AddRequirementsController {
 					+ mpf.getOriginalFilename());
 			mpf.transferTo(rf);
 
-			FileChannel src = new FileInputStream(parent + "/new_requirement/"
-					+ mpf.getOriginalFilename()).getChannel();
-			  FileChannel dest = new FileOutputStream(parent+"/classfiles/sports/"+ mpf.getOriginalFilename()).getChannel();
-			  dest.transferFrom(src, 0, src.size());
+			 FileChannel src = new FileInputStream(parent +
+			 "/new_requirement/"
+			 + mpf.getOriginalFilename()).getChannel();
+			 FileChannel dest = new
+			 FileOutputStream(parent+"/classfiles/library/"+
+			 mpf.getOriginalFilename()).getChannel();
+			 dest.transferFrom(src, 0, src.size());
 			
-			  src.close();
-			  dest.close();
-			  
+			 src.close();
+			 dest.close();
 			
-			
+
 			requirement.setFilename(mpf.getOriginalFilename());
 			requirement.setFile(null);
 
-		
+			String domain = classify.classify(parent + "/new_requirement/"
+					+ mpf.getOriginalFilename());
 
-		
-		
-		
-		
-		
-		String domain = classify.classify();
-		
-		requirement.setDomain(domain);
-		
-		File file = new File(parent+"/classfiles/sports/"+ mpf.getOriginalFilename());
-		 
-		file.delete();
-		
-		requirementManager.insertRequirement(requirement);
-		indexManager.indexRequirementFiles();
-		
-		
-		
-		model.addAttribute("domain", domain);
-		
-		
+			requirement.setDomain(domain);
+			
+			 File file = new File(parent+"/classfiles/library/"+
+			 mpf.getOriginalFilename());
+			
+			 file.delete();
+
+			requirementManager.insertRequirement(requirement);
+			indexManager.indexRequirementFiles();
+
+			model.addAttribute("domain", domain);
+
 		}
 
 		return "auth/tenant/success";

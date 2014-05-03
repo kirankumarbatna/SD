@@ -31,93 +31,99 @@ import edu.asu.spring.mining.mongo.service.IDBManagerRequirement;
 import edu.asu.spring.mining.service.searchmanagement.ISearchDocumentsLucene;
 
 @Service
-public class SearchDocumentsLucene implements ISearchDocumentsLucene 
-{
+public class SearchDocumentsLucene implements ISearchDocumentsLucene {
 	public static final String FIELD_CONTENTS = "contents";
 	public static final String FIELD_PATH = "path";
 	public static final int MAX_RESULTS_NEEDED = 100;
-	
+
 	@Autowired
 	private IDBManagerRequirement dbManager;
-	
+
 	@Autowired
 	private IDBManagerComponent dbManagerComponent;
-	
+
 	@Override
-	public ArrayList<SearchResultDoc> findDocumentsBasedOnKeywords(String searchKeywords) throws IOException, ParseException
-	{
+	public ArrayList<SearchResultDoc> findDocumentsBasedOnKeywords(
+			String searchKeywords) throws IOException, ParseException {
 		Properties pObj = new Properties();
-		pObj.load(SearchDocumentsLucene.class.getClassLoader().getResourceAsStream("storage.properties"));
+		pObj.load(SearchDocumentsLucene.class.getClassLoader()
+				.getResourceAsStream("storage.properties"));
 		String rootPath = (String) pObj.get("storagepath");
 		String indexPath = rootPath.concat("/index/requirement_index");
-		System.out.println("Searching for the keywords : "+ searchKeywords);
+		System.out.println("Searching for the keywords : " + searchKeywords);
 		Directory dirObj = FSDirectory.open(new File(indexPath));
 		IndexReader indexReaderObj = IndexReader.open(dirObj);
 		IndexSearcher indexSearcherObj = new IndexSearcher(indexReaderObj);
-		
+
 		Version currentVersion = Version.LUCENE_36;
 		Analyzer analyzer = new StandardAnalyzer(currentVersion);
-		QueryParser qParser = new QueryParser(currentVersion,FIELD_CONTENTS, analyzer);
+		QueryParser qParser = new QueryParser(currentVersion, FIELD_CONTENTS,
+				analyzer);
 		Query searchQuery = qParser.parse(searchKeywords);
-		TopDocs searchTopResults = indexSearcherObj.search(searchQuery,MAX_RESULTS_NEEDED);
-		System.out.println("Total hits: "+searchTopResults.totalHits);
+		TopDocs searchTopResults = indexSearcherObj.search(searchQuery,
+				MAX_RESULTS_NEEDED);
+		System.out.println("Total hits: " + searchTopResults.totalHits);
 		ScoreDoc[] documentHits = searchTopResults.scoreDocs;
 		System.out.println("------- Search Results -------");
 		ArrayList<SearchResultDoc> allDocs = new ArrayList<SearchResultDoc>();
 		HashSet<String> allUniqueDocs = new HashSet<String>();
-		for(ScoreDoc hit : documentHits)
-		{
+		for (ScoreDoc hit : documentHits) {
 			Document doc = indexSearcherObj.doc(hit.doc);
 			allUniqueDocs.add(doc.get(FIELD_PATH));
 		}
-		
-		for(String name : allUniqueDocs)
-		{
-			IRequirement requirement = dbManager.getRequirementbyFileName(name.substring(1));
-			//System.out.println(requirement.getName() + "   :name");
-			//System.out.println(name.substring(1)+" *hello* "+requirement.getFilename());
-			SearchResultDoc resultDoc = new SearchResultDoc();
-			resultDoc.setDocumentName(name.substring(1));
-			resultDoc.setName(requirement.getName());
-			resultDoc.setDescription(requirement.getDescription());
-			allDocs.add(resultDoc);
-			System.out.println("Document name: "+name);
+
+		for (String name : allUniqueDocs) {
+
+			IRequirement requirement = dbManager.getRequirementbyFileName(name
+					.substring(1));
+			if (requirement != null) {
+				// System.out.println(requirement.getName() + "   :name");
+				// System.out.println(name.substring(1)+" *hello* "+requirement.getFilename());
+				SearchResultDoc resultDoc = new SearchResultDoc();
+				resultDoc.setDocumentName(name.substring(1));
+				resultDoc.setName(requirement.getName());
+				resultDoc.setDescription(requirement.getDescription());
+				allDocs.add(resultDoc);
+				System.out.println("Document name: " + name);
+			}
 		}
 		indexSearcherObj.close();
 		return allDocs;
 	}
-	
+
 	@Override
-	public ArrayList<SearchResultDoc> findDocumentsBasedOnKeywordsInComponents(String searchKeywords) throws IOException, ParseException
-	{
+	public ArrayList<SearchResultDoc> findDocumentsBasedOnKeywordsInComponents(
+			String searchKeywords) throws IOException, ParseException {
 		Properties pObj = new Properties();
-		pObj.load(SearchDocumentsLucene.class.getClassLoader().getResourceAsStream("storage.properties"));
+		pObj.load(SearchDocumentsLucene.class.getClassLoader()
+				.getResourceAsStream("storage.properties"));
 		String rootPath = (String) pObj.get("storagepath");
 		String indexPath = rootPath.concat("/index/component_index");
-		System.out.println("Searching for the keywords : "+ searchKeywords);
+		System.out.println("Searching for the keywords : " + searchKeywords);
 		Directory dirObj = FSDirectory.open(new File(indexPath));
 		IndexReader indexReaderObj = IndexReader.open(dirObj);
 		IndexSearcher indexSearcherObj = new IndexSearcher(indexReaderObj);
-		
+
 		Version currentVersion = Version.LUCENE_36;
 		Analyzer analyzer = new StandardAnalyzer(currentVersion);
-		QueryParser qParser = new QueryParser(currentVersion,FIELD_CONTENTS, analyzer);
+		QueryParser qParser = new QueryParser(currentVersion, FIELD_CONTENTS,
+				analyzer);
 		Query searchQuery = qParser.parse(searchKeywords);
-		TopDocs searchTopResults = indexSearcherObj.search(searchQuery,MAX_RESULTS_NEEDED);
-		System.out.println("Total hits: "+searchTopResults.totalHits);
+		TopDocs searchTopResults = indexSearcherObj.search(searchQuery,
+				MAX_RESULTS_NEEDED);
+		System.out.println("Total hits: " + searchTopResults.totalHits);
 		ScoreDoc[] documentHits = searchTopResults.scoreDocs;
 		System.out.println("------- Search Results -------");
 		ArrayList<SearchResultDoc> allDocs = new ArrayList<SearchResultDoc>();
 		HashSet<String> allUniqueDocs = new HashSet<String>();
-		for(ScoreDoc hit : documentHits)
-		{
+		for (ScoreDoc hit : documentHits) {
 			Document doc = indexSearcherObj.doc(hit.doc);
 			allUniqueDocs.add(doc.get(FIELD_PATH));
 		}
-		
-		for(String name : allUniqueDocs)
-		{
-			IComponent comp = dbManagerComponent.getComponentbyFileName(name.substring(1));
+
+		for (String name : allUniqueDocs) {
+			IComponent comp = dbManagerComponent.getComponentbyFileName(name
+					.substring(1));
 			System.out.println(comp.getName() + "   :name");
 			SearchResultDoc resultDoc = new SearchResultDoc();
 			resultDoc.setDocumentName(comp.getFilename());
@@ -125,7 +131,7 @@ public class SearchDocumentsLucene implements ISearchDocumentsLucene
 			resultDoc.setComponentDomain(comp.getDomain());
 			resultDoc.setUrl(comp.getUrl());
 			allDocs.add(resultDoc);
-			System.out.println("Document name: "+name);
+			System.out.println("Document name: " + name);
 		}
 		indexSearcherObj.close();
 		return allDocs;

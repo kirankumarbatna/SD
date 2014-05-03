@@ -11,8 +11,8 @@
 
 		<sec:authorize access="hasAnyRole('MINING_ADMIN','TENANT')">
 			<li><a
-				href="${pageContext.servletContext.contextPath}/auth/tenant/showrequirements"><span>Tenant
-						Management</span></a>
+				href="${pageContext.servletContext.contextPath}/auth/tenant/showrequirements"><span>Publish Requirement
+						</span></a>
 				<ul>
 
 					<li><a
@@ -24,8 +24,8 @@
 
 		<sec:authorize access="hasAnyRole('MINING_ADMIN','SAS_PROVIDER')">
 			<li><a
-				href="${pageContext.servletContext.contextPath}/auth/component/showcomponents"><span>SAAS
-						Provider Management</span></a></li>
+				href="${pageContext.servletContext.contextPath}/auth/component/showcomponents"><span>Publish SAAS
+						Component</span></a></li>
 
 			<ul>
 
@@ -40,7 +40,7 @@
 			access="hasAnyRole('MINING_ADMIN','SAS_PROVIDER','TENANT')">
 			<li><a
 				href="${pageContext.servletContext.contextPath}/auth/keywordsearchform"><span>Search
-						Management</span></a></li>
+						</span></a></li>
 		</sec:authorize>
 
 

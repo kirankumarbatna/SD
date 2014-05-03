@@ -45,7 +45,7 @@
 
 			<!-- Logo -->
 			<h1>
-				<a href="#">Mining</a>
+				<a href="#">EASYSAAS PLATFORM</a>
 			</h1>
 		</div>
 	</div>
@@ -72,7 +72,7 @@
 	<!-- Copyright -->
 	<div id="copyright" class="container">
 		<ul class="links">
-			<li>&copy;2014 ASU Student Group</li>
+			<li>&copy;2014 Software Design, GROUP 2, 6, 32</li>
 			<li>Design: <a href="http://html5up.net/">HTML5 UP</a></li>
 			<li>Demo Images: <a href="http://mdomaradzki.deviantart.com/">Michael
 					Domaradzki</a></li>
